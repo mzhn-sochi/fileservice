@@ -6,7 +6,6 @@ import (
 	"github.com/google/uuid"
 	"io"
 	"s3-service/internal/entities"
-	"s3-service/pkg/utils"
 	"strings"
 )
 
@@ -30,12 +29,7 @@ func (s *Service) CreateFile(ctx context.Context, file *entities.File) error {
 		return fmt.Errorf("Service.CreateFile unable to create UUID: %w", err)
 	}
 
-	mime, ok := utils.GetContentTypeFromB64(file.Buffer.String())
-	if !ok {
-		return fmt.Errorf("unknown content-type")
-	}
-
-	file.ContentType = mime
+	fmt.Printf("Service.CreateFile file ID: %s\n", file.ContentType)
 
 	file.Name = fmt.Sprintf("%s.%s", id.String(), strings.Split(file.ContentType, "/")[1])
 

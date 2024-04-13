@@ -6,6 +6,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"io"
+	"log"
 	"os"
 	"s3-service/internal/entities"
 )
@@ -19,6 +20,10 @@ func New(sslEnabled bool) (*MinioStorage, error) {
 	endpoint := os.Getenv("MINIO_ENDPOINT")
 	accessKey := os.Getenv("MINIO_ACCESS_KEY")
 	secretKey := os.Getenv("MINIO_SECRET_KEY")
+
+	log.Printf("Endpoint: %s", endpoint)
+	log.Printf("Access Key: %s", accessKey)
+	log.Printf("Secret Key: %s", secretKey)
 
 	client, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKey, secretKey, ""),

@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"io"
+	"log"
 	"s3-service/api/s3"
 	"s3-service/internal/entities"
 )
@@ -43,14 +44,16 @@ func (h Handler) Upload(stream s3.S3_UploadServer) error {
 			return status.Error(codes.Internal, fmt.Sprintf("%s", err.Error()))
 		}
 
+		log.Printf("Metadata: %+v", object.Meta)
+
 		chunk := object.Image.Chunk
 
+		file.ContentType = object.Meta.ContentType
 		file.Size += int64(len(chunk))
 		if _, err := writer.Write(chunk); err != nil {
 			fmt.Printf("%s", err.Error())
 			return err
 		}
-
 	}
 
 	err := h.service.CreateFile(stream.Context(), file)
