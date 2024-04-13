@@ -3,10 +3,11 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	"io"
 	"s3-service/internal/entities"
 	"strings"
+
+	"github.com/google/uuid"
 )
 
 type Storage interface {
@@ -24,7 +25,7 @@ func New(storage Storage) *Service {
 }
 
 func (s *Service) CreateFile(ctx context.Context, file *entities.File) error {
-	id, err := uuid.NewUUID()
+	id, err := uuid.NewV7()
 	if err != nil {
 		return fmt.Errorf("Service.CreateFile unable to create UUID: %w", err)
 	}
