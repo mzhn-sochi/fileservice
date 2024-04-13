@@ -1,0 +1,6 @@
+.idea
+
+*.env.*
+
+*.exe
+api
